@@ -20,13 +20,19 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
-          cache: gradle
+
+      - name: Configurar Gradle 8.7
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.7'
 
       - name: Configurar Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Instalar SDK Android 35
-        run: yes | sdkmanager --licenses >/dev/null 2>&1 || true
+      - name: Instalar Android SDK 35
+        run: |
+          sdkmanager "platform-tools" "platforms;android-35" "build-tools;35.0.0"
+          yes | sdkmanager --licenses >/dev/null 2>&1 || true
 
       - name: Crear Gradle Wrapper
         run: gradle wrapper --gradle-version 8.7
